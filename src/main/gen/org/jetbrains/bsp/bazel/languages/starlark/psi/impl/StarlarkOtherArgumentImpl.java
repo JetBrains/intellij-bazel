@@ -11,14 +11,14 @@ import static org.jetbrains.bsp.bazel.languages.starlark.StarlarkTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import org.jetbrains.bsp.bazel.languages.starlark.psi.*;
 
-public class StarlarkArgumentImpl extends ASTWrapperPsiElement implements StarlarkArgument {
+public class StarlarkOtherArgumentImpl extends ASTWrapperPsiElement implements StarlarkOtherArgument {
 
-  public StarlarkArgumentImpl(@NotNull ASTNode node) {
+  public StarlarkOtherArgumentImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull StarlarkVisitor visitor) {
-    visitor.visitArgument(this);
+    visitor.visitOtherArgument(this);
   }
 
   @Override
@@ -28,15 +28,15 @@ public class StarlarkArgumentImpl extends ASTWrapperPsiElement implements Starla
   }
 
   @Override
-  @Nullable
-  public StarlarkNameArgument getNameArgument() {
-    return findChildByClass(StarlarkNameArgument.class);
+  @NotNull
+  public StarlarkExpression getExpression() {
+    return findNotNullChildByClass(StarlarkExpression.class);
   }
 
   @Override
   @Nullable
-  public StarlarkOtherArgument getOtherArgument() {
-    return findChildByClass(StarlarkOtherArgument.class);
+  public PsiElement getIdentifier() {
+    return findChildByType(IDENTIFIER);
   }
 
 }

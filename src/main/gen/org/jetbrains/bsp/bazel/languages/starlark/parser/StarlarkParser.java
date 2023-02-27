@@ -45,49 +45,14 @@ public class StarlarkParser implements PsiParser, LightPsiParser {
   };
 
   /* ********************************************************** */
-  // IDENTIFIER '=' Expression | '*' Expression | '**' Expression | Expression
+  // NameArgument | OtherArgument
   public static boolean Argument(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "Argument")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, ARGUMENT, "<argument>");
-    r = Argument_0(b, l + 1);
-    if (!r) r = Argument_1(b, l + 1);
-    if (!r) r = Argument_2(b, l + 1);
-    if (!r) r = Expression(b, l + 1, -1);
+    r = NameArgument(b, l + 1);
+    if (!r) r = OtherArgument(b, l + 1);
     exit_section_(b, l, m, r, false, null);
-    return r;
-  }
-
-  // IDENTIFIER '=' Expression
-  private static boolean Argument_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "Argument_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeTokens(b, 0, IDENTIFIER, EQ);
-    r = r && Expression(b, l + 1, -1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  // '*' Expression
-  private static boolean Argument_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "Argument_1")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, ASTERISK);
-    r = r && Expression(b, l + 1, -1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  // '**' Expression
-  private static boolean Argument_2(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "Argument_2")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, DOUBLE_ASTERISK);
-    r = r && Expression(b, l + 1, -1);
-    exit_section_(b, m, null, r);
     return r;
   }
 
@@ -802,6 +767,19 @@ public class StarlarkParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // 'name' '=' RuleName
+  public static boolean NameArgument(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "NameArgument")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, NAME_ARGUMENT, "<name argument>");
+    r = consumeToken(b, "name");
+    r = r && consumeToken(b, EQ);
+    r = r && RuleName(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  /* ********************************************************** */
   // IDENTIFIER | INT | FLOAT | STRING | BYTES
   //           | ListComp | ListExpr | DictComp | DictExpr
   //           | '(' [ExprStmt [',']] ')'
@@ -858,6 +836,53 @@ public class StarlarkParser implements PsiParser, LightPsiParser {
     if (!recursion_guard_(b, l, "Operand_9_1_0_1")) return false;
     consumeToken(b, COMMA);
     return true;
+  }
+
+  /* ********************************************************** */
+  // IDENTIFIER '=' Expression | '*' Expression | '**' Expression | Expression
+  public static boolean OtherArgument(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "OtherArgument")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, OTHER_ARGUMENT, "<other argument>");
+    r = OtherArgument_0(b, l + 1);
+    if (!r) r = OtherArgument_1(b, l + 1);
+    if (!r) r = OtherArgument_2(b, l + 1);
+    if (!r) r = Expression(b, l + 1, -1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  // IDENTIFIER '=' Expression
+  private static boolean OtherArgument_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "OtherArgument_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeTokens(b, 0, IDENTIFIER, EQ);
+    r = r && Expression(b, l + 1, -1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // '*' Expression
+  private static boolean OtherArgument_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "OtherArgument_1")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, ASTERISK);
+    r = r && Expression(b, l + 1, -1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // '**' Expression
+  private static boolean OtherArgument_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "OtherArgument_2")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, DOUBLE_ASTERISK);
+    r = r && Expression(b, l + 1, -1);
+    exit_section_(b, m, null, r);
+    return r;
   }
 
   /* ********************************************************** */
@@ -971,6 +996,18 @@ public class StarlarkParser implements PsiParser, LightPsiParser {
     r = newLine(b, l + 1);
     if (!r) r = eof(b, l + 1);
     exit_section_(b, m, null, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // STRING
+  public static boolean RuleName(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "RuleName")) return false;
+    if (!nextTokenIs(b, STRING)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, STRING);
+    exit_section_(b, m, RULE_NAME, r);
     return r;
   }
 

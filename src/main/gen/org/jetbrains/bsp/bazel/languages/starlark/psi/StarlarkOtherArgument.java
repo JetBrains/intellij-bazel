@@ -5,12 +5,12 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface StarlarkArgument extends PsiElement {
+public interface StarlarkOtherArgument extends PsiElement {
+
+  @NotNull
+  StarlarkExpression getExpression();
 
   @Nullable
-  StarlarkNameArgument getNameArgument();
-
-  @Nullable
-  StarlarkOtherArgument getOtherArgument();
+  PsiElement getIdentifier();
 
 }

@@ -38,6 +38,10 @@
                 language="Starlark"
                 implementationClass="org.jetbrains.bsp.bazel.languages.starlark.annotations.StarlarkFunctionHighlightingAnnotator"/>
 
+
+        <psi.referenceContributor implementation="org.jetbrains.bsp.bazel.languages.starlark.refactoring.StarlarkPsiReferenceContributor"
+                                  language="Starlark"/>
+
         <!--Starlark Annotations -->
         <postStartupActivity implementation="org.jetbrains.bsp.bazel.languages.starlark.build.info.BazelInfoBuildLanguageRunner"/>
         <projectService serviceImplementation="org.jetbrains.bsp.bazel.languages.starlark.build.info.ProjectBuildLanguageInfoService"/>

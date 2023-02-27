@@ -119,7 +119,15 @@ public class StarlarkVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitNameArgument(@NotNull StarlarkNameArgument o) {
+    visitPsiElement(o);
+  }
+
   public void visitOperand(@NotNull StarlarkOperand o) {
+    visitPsiElement(o);
+  }
+
+  public void visitOtherArgument(@NotNull StarlarkOtherArgument o) {
     visitPsiElement(o);
   }
 
@@ -143,6 +151,10 @@ public class StarlarkVisitor extends PsiElementVisitor {
     visitStmt(o);
   }
 
+  public void visitRuleName(@NotNull StarlarkRuleName o) {
+    visitNamedElement(o);
+  }
+
   public void visitSimpleStatement(@NotNull StarlarkSimpleStatement o) {
     visitStatement(o);
   }
@@ -164,6 +176,10 @@ public class StarlarkVisitor extends PsiElementVisitor {
   }
 
   public void visitUnaryOperator(@NotNull StarlarkUnaryOperator o) {
+    visitPsiElement(o);
+  }
+
+  public void visitNamedElement(@NotNull StarlarkNamedElement o) {
     visitPsiElement(o);
   }
 

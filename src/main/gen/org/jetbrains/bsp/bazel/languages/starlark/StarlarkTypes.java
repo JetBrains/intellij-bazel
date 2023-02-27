@@ -36,12 +36,15 @@ public interface StarlarkTypes {
   IElementType LIST_EXPR = new StarlarkElementType("LIST_EXPR");
   IElementType LOAD_STMT = new StarlarkElementType("LOAD_STMT");
   IElementType LOOP_VARIABLES = new StarlarkElementType("LOOP_VARIABLES");
+  IElementType NAME_ARGUMENT = new StarlarkElementType("NAME_ARGUMENT");
   IElementType OPERAND = new StarlarkElementType("OPERAND");
+  IElementType OTHER_ARGUMENT = new StarlarkElementType("OTHER_ARGUMENT");
   IElementType PARAMETER = new StarlarkElementType("PARAMETER");
   IElementType PARAMETERS = new StarlarkElementType("PARAMETERS");
   IElementType PASS_STMT = new StarlarkElementType("PASS_STMT");
   IElementType PRIMARY_EXPRESSION = new StarlarkElementType("PRIMARY_EXPRESSION");
   IElementType RETURN_STMT = new StarlarkElementType("RETURN_STMT");
+  IElementType RULE_NAME = new StarlarkElementType("RULE_NAME");
   IElementType SIMPLE_STATEMENT = new StarlarkElementType("SIMPLE_STATEMENT");
   IElementType SLICE_SUFFIX = new StarlarkElementType("SLICE_SUFFIX");
   IElementType STATEMENT = new StarlarkElementType("STATEMENT");
@@ -196,8 +199,14 @@ public interface StarlarkTypes {
       else if (type == LOOP_VARIABLES) {
         return new StarlarkLoopVariablesImpl(node);
       }
+      else if (type == NAME_ARGUMENT) {
+        return new StarlarkNameArgumentImpl(node);
+      }
       else if (type == OPERAND) {
         return new StarlarkOperandImpl(node);
+      }
+      else if (type == OTHER_ARGUMENT) {
+        return new StarlarkOtherArgumentImpl(node);
       }
       else if (type == PARAMETER) {
         return new StarlarkParameterImpl(node);
@@ -213,6 +222,9 @@ public interface StarlarkTypes {
       }
       else if (type == RETURN_STMT) {
         return new StarlarkReturnStmtImpl(node);
+      }
+      else if (type == RULE_NAME) {
+        return new StarlarkRuleNameImpl(node);
       }
       else if (type == SIMPLE_STATEMENT) {
         return new StarlarkSimpleStatementImpl(node);

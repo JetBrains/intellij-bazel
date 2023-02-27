@@ -9,6 +9,8 @@
   psiPackage="org.jetbrains.bsp.bazel.languages.starlark.psi"
   psiImplPackage="org.jetbrains.bsp.bazel.languages.starlark.psi.impl"
 
+  psiImplUtilClass="org.jetbrains.bsp.bazel.languages.starlark.psi.impl.StarlarkPsiImplUtilKt"
+
   elementTypeHolderClass="org.jetbrains.bsp.bazel.languages.starlark.StarlarkTypes"
   elementTypeClass="org.jetbrains.bsp.bazel.languages.starlark.StarlarkElementType"
   tokenTypeClass="org.jetbrains.bsp.bazel.languages.starlark.StarlarkTokenType"
@@ -98,7 +100,7 @@
     IDENTIFIER="regexp:[a-zA-Z_][a-zA-Z0-9_]*"
 
     // it should be done using some advanced things in the lexer (Starlark.flex), but i dont want to do it now
-    STRING="regexp:r?(('''((([^']|\n)*)|(([^']|\n)*'([^']|\n)+)|(([^']|\n)*''([^']|\n)+))*''')|(\"\"\"((([^\"]|\n)*)|(([^\"]|\n)*\"([^\"]|\n)+)|(([^\"]|\n)*\"\"([^\"]|\n)+))*\"\"\")|('([^']|(\\\n))*')|(\"([^\"]|(\\\n))*\"))"
+    STRING="regexp:r?(('''((([^']|\n)*)|(([^']|\n)*'([^']|\n)+)|(([^']|\n)*''([^']|\n)+))*''') | (\"\"\"((([^\"]|\n)*)|(([^\"]|\n)*\"([^\"]|\n)+)|(([^\"]|\n)*\"\"([^\"]|\n)+))*\"\"\") | ('([^']|(\\\n))*')|(\"([^\"]|(\\\n))*\"))"
     BYTES="regexp:(b|rb|br)(('''((([^']|\n)*)|(([^']|\n)*'([^']|\n)+)|(([^']|\n)*''([^']|\n)+))*''')|(\"\"\"((([^\"]|\n)*)|(([^\"]|\n)*\"([^\"]|\n)+)|(([^\"]|\n)*\"\"([^\"]|\n)+))*\"\"\")|('([^']|(\\\n))*')|(\"([^\"]|(\\\n))*\"))"
 
     COMMENT="regexp:#.*"
@@ -161,7 +163,16 @@ Parameters  ::= Parameter (',' Parameter)*
 Parameter   ::= IDENTIFIER '=' Expression | IDENTIFIER | '*' IDENTIFIER | '**' IDENTIFIER
 
 Arguments   ::= Argument (',' Argument)*
-Argument    ::= IDENTIFIER '=' Expression | '*' Expression | '**' Expression | Expression
+
+Argument        ::= NameArgument | OtherArgument
+OtherArgument   ::= IDENTIFIER '=' Expression | '*' Expression | '**' Expression | Expression
+NameArgument    ::= 'name' '=' RuleName
+RuleName  ::= STRING {
+     mixin="org.jetbrains.bsp.bazel.languages.starlark.psi.impl.StarlarkNamedElementImpl"
+     implements="org.jetbrains.bsp.bazel.languages.starlark.psi.StarlarkNamedElement"
+     methods=[getKey getValue getName setName getNameIdentifier]
+}
+
 
 ListExpr    ::= '[' [ExprStmt [',']] ']'
 ListComp    ::= '[' IfLastExpr CompClause* ']'

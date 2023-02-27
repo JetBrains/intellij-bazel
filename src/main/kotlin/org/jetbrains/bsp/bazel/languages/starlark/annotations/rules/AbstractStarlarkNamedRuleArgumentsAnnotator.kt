@@ -48,6 +48,6 @@ private fun PsiElement.calculateRuleNamedArgumentElements(): Set<PsiElement> =
         childrenOfType<StarlarkCallSuffix>().first()
             .childrenOfType<StarlarkArguments>().firstOrNull()
             ?.childrenOfType<StarlarkArgument>()
-            ?.mapNotNull { it.identifier }
+            ?.mapNotNull { it.otherArgument?.identifier }
             ?.toSet()
             .orEmpty()
