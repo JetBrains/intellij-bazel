@@ -2,6 +2,7 @@ package org.jetbrains.bazel.flow.open
 
 import com.intellij.openapi.diagnostic.logger
 import com.intellij.openapi.externalSystem.importing.AbstractOpenProjectProvider
+import com.intellij.openapi.externalSystem.service.project.trusted.ExternalSystemTrustedProjectDialog
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.openapi.vfs.isFile
@@ -25,6 +26,8 @@ internal class BazelBspOpenProjectProvider : AbstractOpenProjectProvider() {
 
   override suspend fun linkToExistingProjectAsync(projectFile: VirtualFile, project: Project) {
     log.debug("Link BazelBsp project $projectFile to existing project ${project.name}")
-    performOpenBazelProjectViaBspPlugin(project, projectFile)
+    if (ExternalSystemTrustedProjectDialog.confirmLinkingUntrustedProjectAsync(project, systemId, projectFile.toNioPath())) {
+      performOpenBazelProjectViaBspPlugin(project, projectFile)
+    }
   }
 }
