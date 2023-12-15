@@ -77,6 +77,10 @@
         <completion.contributor
                 language="Starlark"
                 implementationClass="org.jetbrains.bazel.languages.starlark.completion.StarlarkParamsCompletionContributor"/>
+
+        <runLineMarkerContributor
+                language="Starlark"
+                implementationClass="org.jetbrains.bazel.languages.build.BuildFileRunLineMarkerContributor"/>
     </extensions>
 
     <actions>
