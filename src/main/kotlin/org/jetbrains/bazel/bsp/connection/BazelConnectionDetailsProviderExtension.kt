@@ -17,6 +17,7 @@ import coursier.core.Module
 import org.jetbrains.bazel.assets.BspPluginTemplates
 import org.jetbrains.bazel.config.BazelPluginConstants.bazelBspBuildToolId
 import org.jetbrains.bsp.bazel.commons.Constants
+import org.jetbrains.bsp.bazel.install.Install
 import org.jetbrains.bsp.utils.parseBspConnectionDetails
 import org.jetbrains.plugins.bsp.extension.points.BuildToolId
 import org.jetbrains.plugins.bsp.server.connection.ConnectionDetailsProviderExtension
