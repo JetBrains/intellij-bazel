@@ -57,4 +57,12 @@ tasks {
       kotlinOptions.apiVersion = it
     }
   }
+
+  test {
+    useJUnitPlatform()
+    testLogging {
+      events("PASSED", "SKIPPED", "FAILED")
+    }
+  }
+
 }

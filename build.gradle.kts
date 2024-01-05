@@ -17,12 +17,12 @@ val myToken: String by project
 val releaseChannel: String by project
 
 dependencies {
-    implementation(libs.kotest)
-    implementation(libs.coursier)
     implementation(libs.bazelBsp) {
         exclude(group = "org.jetbrains.kotlinx")
         exclude(group = "ch.epfl.scala")
     }
+    testImplementation(libs.junitJupiter)
+    testImplementation(libs.kotest)
 }
 
 group = Plugin.group
@@ -127,6 +127,24 @@ tasks {
                 mapOf(
                     "group" to "org.jetbrains.kotlinx",
                     "module" to "kotlinx-coroutines-core",
+                )
+            )
+        )
+
+        runtimeClasspathFiles.set(
+            runtimeConfiguration.exclude(
+                mapOf(
+                    "group" to "ch.epfl.scala",
+                    "module" to "bsp4j",
+                )
+            )
+        )
+
+        runtimeClasspathFiles.set(
+            runtimeConfiguration.exclude(
+                mapOf(
+                    "group" to "org.jetbrains.kotlin",
+                    "module" to "kotlin-stdlib",
                 )
             )
         )
