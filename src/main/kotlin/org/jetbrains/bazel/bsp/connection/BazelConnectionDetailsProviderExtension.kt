@@ -84,18 +84,16 @@ internal class BazelConnectionDetailsProviderExtension: ConnectionDetailsProvide
     val connectionFile = project.stateService.connectionFile
 
     return if (connectionFile != null) {
-      connectionFile.provideNewConnectionDetailsIfConnectionFileDefined(currentConnectionDetails)
+      connectionFile.doProvideNewConnectionDetails(currentConnectionDetails)
     } else {
-      provideNewConnectionDetailsIfConnectionFileUndefined(project, currentConnectionDetails)
+      doProvideNewConnectionDetails(project, currentConnectionDetails)
     }
   }
 
-  private fun VirtualFile.provideNewConnectionDetailsIfConnectionFileDefined(
-    currentConnectionDetails: BspConnectionDetails?
-  ): BspConnectionDetails? =
+  private fun VirtualFile.doProvideNewConnectionDetails(currentConnectionDetails: BspConnectionDetails?): BspConnectionDetails? =
     parseBspConnectionDetails()?.takeIf { it != currentConnectionDetails }
 
-  private fun provideNewConnectionDetailsIfConnectionFileUndefined(
+  private fun doProvideNewConnectionDetails(
     project: Project,
     currentConnectionDetails: BspConnectionDetails?
   ): BspConnectionDetails? {
@@ -115,7 +113,7 @@ internal class BazelConnectionDetailsProviderExtension: ConnectionDetailsProvide
   }
 
   private fun Sdk.toJavaBin(): Path =
-    homePath?.let { "$it/bin/java" }?.let { Path(it) } ?: error("Cannot obtain jdk home path for $name")
+    homePath?.let { Path(it) }?.resolve("bin")?.resolve("java") ?: error("Cannot obtain jdk home path for $name")
 
   private fun BspConnectionDetails.hasNotChanged(javaBin: Path): Boolean =
     version == Constants.VERSION && argv[BAZEL_BSP_CONNECTION_FILE_ARGV_JAVA_INDEX] == javaBin.toAbsolutePath().toString()
@@ -160,12 +158,9 @@ internal class BazelConnectionDetailsProviderExtension: ConnectionDetailsProvide
 
   private fun Path.mapJarDirToClasspath(): String =
     toFile().listFiles()?.toList().orEmpty()
-      .map { it.toPath() }
-      .map { it.toAbsolutePath() }
-      .map { it.normalize() }
+      .map { it.toPath().toAbsolutePath().normalize() }
       .joinToString(separator = File.pathSeparator, transform = { it.toString() })
 }
-
 
 internal data class BazelConnectionDetailsProviderExtensionState(
   var projectPath: String? = null,
