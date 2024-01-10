@@ -15,7 +15,7 @@ detektFormatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", v
 detektGradle = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
 kotlinGradle = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin-gradle-version" }
 coursier = { module = "io.get-coursier:coursier_2.13", version = "2.1.7" }
-bazelBsp = { module = "org.jetbrains.bsp:bazel-bsp", version = "3.1.0-20231205-ec256a9-NIGHTLY" }
+bazelBsp = { module = "org.jetbrains.bsp:bazel-bsp", version = "3.1.0-20240110-b6db163-NIGHTLY" }
 
 [plugins]
 intellij = { id = "org.jetbrains.intellij", version = "1.16.0" }
