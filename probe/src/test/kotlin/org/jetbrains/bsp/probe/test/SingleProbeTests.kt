@@ -25,7 +25,7 @@ class SingleProbeTests {
             buildPanel.findElement(Query.className("ActionButton", "myaction.key" to "widget.loaded.targets.tab.name"))
           loaded.click()
           val targetsTree = buildPanel.findElement(Query.className("Tree"))
-          Assertions.assertEquals(9, targetsTree.fullTexts().size)
+          Assertions.assertEquals(8, targetsTree.fullTexts().size)
         }
 
         val stripeButton = robot.findElement(Query.className("StripeButton", "text" to "Bazel"))
