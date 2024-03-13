@@ -1,7 +1,7 @@
 [versions]
 ideProbe = "0.53.0"
 detekt = "1.23.5"
-kotlin-gradle-version = "1.8.20"
+kotlin-gradle-version = "1.9.23"
 
 [libraries]
 ideProbeDriver = { module = "org.virtuslab.ideprobe:driver_2.13", version.ref = "ideProbe" }
