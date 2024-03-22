@@ -2,16 +2,15 @@ package org.jetbrains.bsp.probe.test
 
 import com.intellij.remoterobot.fixtures.CommonContainerFixture
 import org.virtuslab.ideprobe.IntelliJFixture
-import org.virtuslab.ideprobe.OS
 import org.virtuslab.ideprobe.ProbeDriver
 import org.virtuslab.ideprobe.WaitDecision
 import org.virtuslab.ideprobe.WaitLogic
-import org.virtuslab.ideprobe.dependencies.IntelliJVersion
 import org.virtuslab.ideprobe.robot.RobotProbeDriver
 import org.virtuslab.ideprobe.robot.SearchableComponent
 import org.virtuslab.ideprobe.wait.BasicWaiting
 import org.virtuslab.ideprobe.wait.DoOnlyOnce
 import scala.Option
+import scala.Tuple2
 import scala.concurrent.duration.FiniteDuration
 import scala.runtime.BoxedUnit
 import java.io.InvalidClassException
@@ -72,6 +71,8 @@ fun ProbeDriver.tryUntilSuccessful(action: () -> Unit) {
   }
   return await(waitLogic)
 }
+
+fun <A, B> Tuple2<A, B>.toKotlin() = Pair(this._1, this._2)
 
 object Query {
   fun dialog(title: String): String = dialog("title" to title)
