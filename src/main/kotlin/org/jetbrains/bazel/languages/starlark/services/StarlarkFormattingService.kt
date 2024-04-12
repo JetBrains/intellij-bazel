@@ -1,6 +1,5 @@
 package org.jetbrains.bazel.languages.starlark.services
 
-import com.intellij.codeInsight.actions.VcsFacade
 import com.intellij.codeInsight.hint.HintManager
 import com.intellij.codeInsight.hint.HintManagerImpl
 import com.intellij.codeInsight.hint.HintUtil
@@ -14,7 +13,6 @@ import com.intellij.formatting.service.FormattingService.Feature
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.application.ModalityState
 import com.intellij.openapi.diagnostic.logger
-import com.intellij.openapi.editor.Document
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.fileTypes.FileTypeRegistry
 import com.intellij.openapi.vfs.VirtualFile
@@ -37,7 +35,7 @@ class StarlarkFormattingService : AsyncDocumentFormattingService() {
   }
 
   override fun createFormattingTask(request: AsyncFormattingRequest): FormattingTask? {
-    val buildifierPath = "/opt/homebrew/bin/buildifier"
+    val buildifierPath = "buildifier"
     val ioFile: File = request.ioFile ?: return null
     val psiFile = request.context.containingFile
     val project = request.context.project
@@ -48,8 +46,6 @@ class StarlarkFormattingService : AsyncDocumentFormattingService() {
       LOG.warn("Document for file ${psiFile.name} is null")
       return null
     }
-
-    //TODO: check whether buildifier is executable
 
     val commandLine: GeneralCommandLine = GeneralCommandLine()
       .withParentEnvironmentType(GeneralCommandLine.ParentEnvironmentType.CONSOLE)
@@ -62,7 +58,7 @@ class StarlarkFormattingService : AsyncDocumentFormattingService() {
     return object : FormattingTask {
       override fun run() {
         try {
-          handler.addProcessListener(BuildifierProcessListener(request, document))
+          handler.addProcessListener(BuildifierProcessListener(request))
           handler.startNotify()
         } catch (e: Exception) {
           LOG.warn(e.localizedMessage)
@@ -90,11 +86,7 @@ class StarlarkFormattingService : AsyncDocumentFormattingService() {
   }
 }
 
-internal open class BuildifierProcessListener(
-  private val request: AsyncFormattingRequest,
-  private val document: Document,
-  private val textBefore: String = document.text
-) : CapturingProcessAdapter() {
+internal open class BuildifierProcessListener(private val request: AsyncFormattingRequest) : CapturingProcessAdapter() {
   override fun processTerminated(event: ProcessEvent) {
     val exitCode: Int = event.exitCode
     if (exitCode == 0) {
@@ -102,21 +94,12 @@ internal open class BuildifierProcessListener(
         showFormattedLinesInfo("Ignored")
         request.onTextReady(null)
       } else {
-        val message = buildLinesChangedMessage(document, textBefore)
-        showFormattedLinesInfo(message)
+        showFormattedLinesInfo(BazelPluginBundle.message("buildifier.formatted.success"))
         request.onTextReady(output.stdout)
       }
     } else {
       request.onError(BazelPluginBundle.message("buildifier.run.error.message"), output.stderr)
     }
-  }
-
-  private fun buildLinesChangedMessage(document: Document, textBefore: CharSequence): String {
-    val diff = VcsFacade.getInstance().calculateChangedLinesNumber(document, textBefore)
-    return if (diff == 0)
-      BazelPluginBundle.message("buildifier.no.lines.changed")
-    else
-      BazelPluginBundle.message("buildifier.formatted.n.lines", diff, if (diff == 1) 1 else 0)
   }
 
   private fun showFormattedLinesInfo(text: String, isError: Boolean = false) {
