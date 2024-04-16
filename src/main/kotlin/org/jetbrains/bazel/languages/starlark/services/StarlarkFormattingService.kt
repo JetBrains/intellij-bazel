@@ -21,9 +21,9 @@ import com.intellij.psi.util.PsiEditorUtil
 import com.intellij.ui.LightweightHint
 import org.jetbrains.bazel.config.BazelPluginBundle
 import org.jetbrains.bazel.languages.starlark.StarlarkFileType
-import java.io.File
 
 private val LOG = logger<StarlarkFormattingService>()
+private const val NOTIFICATION_GROUP_ID = "Buildifier"
 
 internal class StarlarkFormattingService : AsyncDocumentFormattingService() {
   override fun getFeatures(): Set<Feature> = emptySet()
@@ -36,12 +36,9 @@ internal class StarlarkFormattingService : AsyncDocumentFormattingService() {
   override fun createFormattingTask(request: AsyncFormattingRequest): FormattingTask? {
     //TODO: buildifier settings (https://youtrack.jetbrains.com/issue/BAZEL-927/settings-page-for-buildifier)
     val buildifierPath = "buildifier"
-    val psiFile = request.context.containingFile
-    val project = request.context.project
-    val document = PsiDocumentManager.getInstance(project).getDocument(psiFile)
 
-    if (document == null) {
-      LOG.warn("Document for file ${psiFile.name} is null")
+    if (!checkDocumentExists(request)) {
+      LOG.warn("Document for file ${request.context.containingFile.name} is null")
       return null
     }
 
@@ -67,9 +64,17 @@ internal class StarlarkFormattingService : AsyncDocumentFormattingService() {
     }
   }
 
+  private fun checkDocumentExists(request: AsyncFormattingRequest): Boolean {
+    val psiFile = request.context.containingFile
+    val project = request.context.project
+    val document = PsiDocumentManager.getInstance(project).getDocument(psiFile)
+
+    return document != null
+  }
+
   private fun createProcessHandler(request: AsyncFormattingRequest, buildifierPath: String): CapturingProcessHandler? {
-    val ioFile: File = request.ioFile ?: return null
-    val commandLine: GeneralCommandLine = GeneralCommandLine()
+    val ioFile = request.ioFile ?: return null
+    val commandLine = GeneralCommandLine()
       .withParentEnvironmentType(GeneralCommandLine.ParentEnvironmentType.CONSOLE)
       .withExePath(buildifierPath)
       .withInput(ioFile)
@@ -81,16 +86,11 @@ internal class StarlarkFormattingService : AsyncDocumentFormattingService() {
   override fun getNotificationGroupId(): String = NOTIFICATION_GROUP_ID
 
   override fun getName(): String = BazelPluginBundle.message("buildifier.formatting.service.name")
-
-  private companion object {
-    private const val NOTIFICATION_GROUP_ID = "Buildifier"
-
-  }
 }
 
-internal open class BuildifierProcessListener(private val request: AsyncFormattingRequest) : CapturingProcessAdapter() {
+private open class BuildifierProcessListener(private val request: AsyncFormattingRequest) : CapturingProcessAdapter() {
   override fun processTerminated(event: ProcessEvent) {
-    val exitCode: Int = event.exitCode
+    val exitCode = event.exitCode
     when (exitCode) {
       0 -> showFormattedOutput()
       else -> request.onError(BazelPluginBundle.message("buildifier.run.error.message"), output.stderr)
