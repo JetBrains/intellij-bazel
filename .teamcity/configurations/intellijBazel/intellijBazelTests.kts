@@ -16,7 +16,7 @@ open class Tests(
     steps: BuildSteps.() -> Unit,
     failureConditions: FailureConditions.() -> Unit = {},
     artifactRules: String = "",
-    requirements: Requirements.() -> Unit = {}
+    requirements: (Requirements.() -> Unit)? = null
 ) : BaseConfiguration.BaseBuildType(
     name = "[tests] $name",
     vcsRoot = vcsRoot,
