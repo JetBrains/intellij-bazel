@@ -7,11 +7,14 @@ import jetbrains.buildServer.configs.kotlin.v2019_2.Project
 
 version = "2024.03"
 
-project(IntellijBazel)
+project {
+    subProject(IntellijBazelGitHub)
+    subProject(IntellijBazelSpace)
+}
+object IntellijBazelGitHub : Project({
 
-object IntellijBazel : Project({
-
-    vcsRoot(BaseConfiguration.IntellijBazelVcs)
+    name = "Intellij-Bazel GH"
+    vcsRoot(BaseConfiguration.GitHubVcs)
 
     // setup pipeline chain for intellij-bsp
     val allSteps = sequential {
@@ -21,12 +24,57 @@ object IntellijBazel : Project({
             onDependencyCancel = FailureAction.CANCEL
 
         }) {
-            buildType(IntellijBazelBuild.BuildTheProject)
-            buildType(IntellijBazelTests.UnitTests)
-            buildType(IntellijBazelTests.IdeProbeTests)
+            buildType(IntellijBazelBuild.GitHub)
+            buildType(IntellijBazelTests.UnitTestsGitHub)
+            buildType(IntellijBazelTests.IdeProbeGitHub)
         }
 
-        buildType(ResultsAggregator.IntellijBazelAggregator) {
+        buildType(ResultsAggregator.GitHub) {
+            onDependencyFailure = FailureAction.ADD_PROBLEM
+            onDependencyCancel = FailureAction.ADD_PROBLEM
+        }
+    }.buildTypes()
+
+    // initialize all build steps for intellij-bsp
+    allSteps.forEach { buildType(it) }
+
+    // setup trigger for intellij-bsp pipeline
+    allSteps.last().triggers {
+        vcs {
+            branchFilter = """
+                +:pull/*
+            """.trimIndent()
+        }
+    }
+
+    // setup display order for intellij-bsp pipeline
+    buildTypesOrderIds = arrayListOf(
+        RelativeId("GitHubBuildBuildIntellijBazel"),
+        RelativeId("GitHubTestsIdeProbe"),
+        RelativeId("GitHubTestsUnitTests"),
+        RelativeId("GitHubResults")
+    )
+})
+
+object IntellijBazelSpace : Project({
+
+    name = "Intellij-Bazel Space"
+    vcsRoot(BaseConfiguration.SpaceVcs)
+
+    // setup pipeline chain for intellij-bsp
+    val allSteps = sequential {
+
+        parallel(options = {
+            onDependencyFailure = FailureAction.CANCEL
+            onDependencyCancel = FailureAction.CANCEL
+
+        }) {
+            buildType(IntellijBazelBuild.Space)
+            buildType(IntellijBazelTests.UnitTestsSpace)
+            buildType(IntellijBazelTests.IdeProbeSpace)
+        }
+
+        buildType(ResultsAggregator.Space) {
             onDependencyFailure = FailureAction.ADD_PROBLEM
             onDependencyCancel = FailureAction.ADD_PROBLEM
         }
@@ -40,16 +88,16 @@ object IntellijBazel : Project({
         vcs {
             branchFilter = """
                 +:<default>
-                +:pull/*
+                +:*
             """.trimIndent()
         }
     }
 
     // setup display order for intellij-bsp pipeline
     buildTypesOrderIds = arrayListOf(
-            RelativeId("BuildBuildIntellijBazel"),
-            RelativeId("TestsIdeProbeTests"),
-            RelativeId("TestsUnitTests"),
-            RelativeId("IntellijBazelResults")
+        RelativeId("SpaceBuildBuildIntellijBazel"),
+        RelativeId("SpaceTestsIdeProbe"),
+        RelativeId("SpaceTestsUnitTests"),
+        RelativeId("SpaceResults")
     )
 })
