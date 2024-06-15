@@ -76,21 +76,21 @@ object IdeProbeGitHub : Tests(
                 set -euxo pipefail
 
                 #install required cpp and other packages
-                sh -c 'echo "deb https://repo.scala-sbt.org/scalasbt/debian /" | tee -a /etc/apt/sources.list.d/sbt.list'  ||:
-                curl -sL "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x2EE0EA64E40A89B84B2DF73499E82A75642AC823" | apt-key add -  ||:
-                apt-get update -q ||:
-                apt-get install -y libxtst6 ||:
-                apt-get install -y libx11-6 ||:
-                apt-get install -y libxrender1 ||:
-                apt-get install -y xvfb ||:
-                apt-get install -y openssh-server ||:
-                apt-get install -y python3 ||:
-                apt-get install -y python3-pip ||:
-                apt-get install -y sbt ||:
-                apt-get install -y libssl-dev ||:
-                apt-get install -y pkg-config ||:
-                apt-get install -y x11-apps ||:
-                apt-get install -y imagemagick ||:
+                sudo sh -c 'echo "deb https://repo.scala-sbt.org/scalasbt/debian /" | tee -a /etc/apt/sources.list.d/sbt.list'  ||:
+                sudo curl -sL "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x2EE0EA64E40A89B84B2DF73499E82A75642AC823" | apt-key add -  ||:
+                sudo apt-get update -q ||:
+                sudo apt-get install -y libxtst6 ||:
+                sudo apt-get install -y libx11-6 ||:
+                sudo apt-get install -y libxrender1 ||:
+                sudo apt-get install -y xvfb ||:
+                sudo apt-get install -y openssh-server ||:
+                sudo apt-get install -y python3 ||:
+                sudo apt-get install -y python3-pip ||:
+                sudo apt-get install -y sbt ||:
+                sudo apt-get install -y libssl-dev ||:
+                sudo apt-get install -y pkg-config ||:
+                sudo apt-get install -y x11-apps ||:
+                sudo apt-get install -y imagemagick ||:
             """.trimIndent()
     }
 
@@ -151,21 +151,21 @@ object IdeProbeSpace: Tests(
                 set -euxo pipefail
 
                 #install required cpp and other packages
-                sh -c 'echo "deb https://repo.scala-sbt.org/scalasbt/debian /" | tee -a /etc/apt/sources.list.d/sbt.list'  ||:
-                curl -sL "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x2EE0EA64E40A89B84B2DF73499E82A75642AC823" | apt-key add -  ||:
-                apt-get update -q ||:
-                apt-get install -y libxtst6 ||:
-                apt-get install -y libx11-6 ||:
-                apt-get install -y libxrender1 ||:
-                apt-get install -y xvfb ||:
-                apt-get install -y openssh-server ||:
-                apt-get install -y python3 ||:
-                apt-get install -y python3-pip ||:
-                apt-get install -y sbt ||:
-                apt-get install -y libssl-dev ||:
-                apt-get install -y pkg-config ||:
-                apt-get install -y x11-apps ||:
-                apt-get install -y imagemagick ||:
+                sudo sh -c 'echo "deb https://repo.scala-sbt.org/scalasbt/debian /" | tee -a /etc/apt/sources.list.d/sbt.list'  ||:
+                sudo curl -sL "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x2EE0EA64E40A89B84B2DF73499E82A75642AC823" | apt-key add -  ||:
+                sudo apt-get update -q ||:
+                sudo apt-get install -y libxtst6 ||:
+                sudo apt-get install -y libx11-6 ||:
+                sudo apt-get install -y libxrender1 ||:
+                sudo apt-get install -y xvfb ||:
+                sudo apt-get install -y openssh-server ||:
+                sudo apt-get install -y python3 ||:
+                sudo apt-get install -y python3-pip ||:
+                sudo apt-get install -y sbt ||:
+                sudo apt-get install -y libssl-dev ||:
+                sudo apt-get install -y pkg-config ||:
+                sudo apt-get install -y x11-apps ||:
+                sudo apt-get install -y imagemagick ||:
             """.trimIndent()
         }
 
