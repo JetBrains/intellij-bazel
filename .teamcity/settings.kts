@@ -1,5 +1,6 @@
 import configurations.*
 import configurations.intellijBazel.*
+import jetbrains.buildServer.configs.kotlin.v10.toExtId
 import jetbrains.buildServer.configs.kotlin.v2019_2.*
 import jetbrains.buildServer.configs.kotlin.v2019_2.triggers.vcs
 import jetbrains.buildServer.configs.kotlin.v2019_2.Project
@@ -12,7 +13,7 @@ project {
     subProject(IntellijBazelSpace)
 }
 object IntellijBazelGitHub : Project({
-
+    id("GitHub".toExtId())
     name = "Intellij-Bazel GH"
     vcsRoot(BaseConfiguration.GitHubVcs)
 
@@ -57,7 +58,7 @@ object IntellijBazelGitHub : Project({
 })
 
 object IntellijBazelSpace : Project({
-
+    id("Space".toExtId())
     name = "Intellij-Bazel Space"
     vcsRoot(BaseConfiguration.SpaceVcs)
 
