@@ -11,7 +11,7 @@ open class Aggregator (
     vcsRoot: GitVcsRoot
 ) : BuildType({
 
-    name = "results"
+    name = "Results"
 
     vcs {
         root(vcsRoot)
