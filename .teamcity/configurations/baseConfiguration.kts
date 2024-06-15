@@ -17,7 +17,7 @@ open class BaseBuildType(
     failureConditions: FailureConditions.() -> Unit = {},
     artifactRules: String = "",
     setupSteps: Boolean = false,
-    requirements: Requirements.() -> Unit = {}
+    requirements: (Requirements.() -> Unit)? = null
 ) : BuildType({
     this.name = name
     this.artifactRules = artifactRules
@@ -35,7 +35,7 @@ open class BaseBuildType(
 
     if (vcsRoot.name == "intellij-bazel-github" ) {
         id("GitHub$name".toExtId())
-        if (requirements == {}) {
+        if (requirements == null) {
             requirements {
                 endsWith("cloud.amazon.agent-name-prefix", "Medium")
                 equals("container.engine.osType", "linux")
