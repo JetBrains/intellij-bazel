@@ -12,6 +12,7 @@ project {
     subProject(IntellijBazelGitHub)
     subProject(IntellijBazelSpace)
 }
+
 object IntellijBazelGitHub : Project({
     id("GitHub".toExtId())
     name = "Intellij-Bazel GH"
