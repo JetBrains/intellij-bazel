@@ -28,8 +28,10 @@ define_kt_toolchain(
 intellij_plugin_library(
     name = "plugin_library",
     optional_plugin_deps = [],
-    plugin_deps = ["com.intellij.modules.platform"],
-    plugin_xmls = ["//src:main/resources/META-INF/base.xml"],
+#    plugin_deps = ["com.intellij.modules.platform"],
+    plugin_xmls = [
+        "//src:main/resources/META-INF/base.xml"
+        ],
     visibility = ["//visibility:public"],
     deps = [
         "//src:plugin",
@@ -59,8 +61,8 @@ intellij_plugin(
     name = "intellij_bazel_merged",
     plugin_xml = ":stamped_plugin_xml",
     deps = [
-        ":plugin_library",
         "@intellij-bsp//:plugin_library",
+        ":plugin_library",
     ],
 )
 

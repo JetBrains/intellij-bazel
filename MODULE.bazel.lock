@@ -136,11 +136,11 @@
     "@@rules_jvm_external~//:extensions.bzl%maven": {
       "general": {
         "bzlTransitiveDigest": "Pq3YnJEflPAALx/UMykUnN3aA5bve0fNm/cuLvt/zvI=",
-        "usagesDigest": "D+qoUcwEsjlyB8hW9JNIIsrPK3NdCNSEBLsX5hX/yHU=",
+        "usagesDigest": "wckEVAAOlU6QsaP+eZvBveKK4x1btBpaKv/clK0S90A=",
         "recordedFileInputs": {
           "@@rules_jvm_external~//rules_jvm_external_deps_install.json": "0bfbc915d9155df44d7a3b216e8f3c1fbcd110e358dd07637dc393583a5227e8",
           "@@rules_intellij~//maven_install.json": "3fdb5120d43e6a8c05d697b51753fffeed3459c481eb1166754485a6dd9dfec3",
-          "@@//maven_install.json": "6921bdc197dc4cc20d49fcc9fca2c3b55d8ac8de9b06439de57b4c304d87e11b"
+          "@@//maven_install.json": "c50d031edf1be47ce7f64d15eb00ca54d6b28be6ea949c2d2bebbf3b536897ee"
         },
         "recordedDirentsInputs": {},
         "envVariables": {},
@@ -8169,14 +8169,6 @@
               "target_name": "org_codehaus_groovy_groovy_templates"
             }
           },
-          "org_jetbrains_kotlinx_kotlinx_coroutines_core": {
-            "bzlFile": "@@rules_jvm_external~//private:compat_repository.bzl",
-            "ruleClassName": "compat_repository",
-            "attributes": {
-              "generating_repository": "maven",
-              "target_name": "org_jetbrains_kotlinx_kotlinx_coroutines_core"
-            }
-          },
           "org_junit_jupiter_junit_jupiter_engine": {
             "bzlFile": "@@rules_jvm_external~//private:compat_repository.bzl",
             "ruleClassName": "compat_repository",
@@ -8658,7 +8650,9 @@
               "fail_on_missing_checksum": true,
               "fetch_sources": false,
               "fetch_javadoc": false,
-              "excluded_artifacts": [],
+              "excluded_artifacts": [
+                "{ \"group\": \"org.jetbrains.kotlinx\", \"artifact\": \"kotlinx-coroutines-core\" }"
+              ],
               "generate_compat_repositories": false,
               "version_conflict_policy": "default",
               "override_targets": {},
@@ -10041,20 +10035,6 @@
               "downloaded_file_path": "v1/software/amazon/awssdk/protocol-core/2.25.23/protocol-core-2.25.23-sources.jar"
             }
           },
-          "org_jetbrains_kotlinx_kotlinx_coroutines_core_1_8_0": {
-            "bzlFile": "@@bazel_tools//tools/build_defs/repo:http.bzl",
-            "ruleClassName": "http_file",
-            "attributes": {
-              "sha256": "20aa434b6a930ea66d2e61b00deefae09fea3d32f9640d2e0c271312880e0add",
-              "urls": [
-                "https://cache-redirector.jetbrains.com/maven-central/org/jetbrains/kotlinx/kotlinx-coroutines-core/1.8.0/kotlinx-coroutines-core-1.8.0.jar",
-                "https://cache-redirector.jetbrains.com/intellij-dependencies/org/jetbrains/kotlinx/kotlinx-coroutines-core/1.8.0/kotlinx-coroutines-core-1.8.0.jar",
-                "https://www.jetbrains.com/intellij-repository/releases/org/jetbrains/kotlinx/kotlinx-coroutines-core/1.8.0/kotlinx-coroutines-core-1.8.0.jar",
-                "https://www.jetbrains.com/intellij-repository/snapshots/org/jetbrains/kotlinx/kotlinx-coroutines-core/1.8.0/kotlinx-coroutines-core-1.8.0.jar"
-              ],
-              "downloaded_file_path": "v1/org/jetbrains/kotlinx/kotlinx-coroutines-core/1.8.0/kotlinx-coroutines-core-1.8.0.jar"
-            }
-          },
           "com_google_cloud_google_cloud_core_http_jar_sources_2_36_1": {
             "bzlFile": "@@bazel_tools//tools/build_defs/repo:http.bzl",
             "ruleClassName": "http_file",
@@ -10561,7 +10541,9 @@
               "use_starlark_android_rules": false,
               "aar_import_bzl_label": "@build_bazel_rules_android//android:rules.bzl",
               "duplicate_version_warning": "warn",
-              "excluded_artifacts": [],
+              "excluded_artifacts": [
+                "{ \"group\": \"org.jetbrains.kotlinx\", \"artifact\": \"kotlinx-coroutines-core\" }"
+              ],
               "repin_instructions": ""
             }
           },

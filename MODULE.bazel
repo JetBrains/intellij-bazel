@@ -25,7 +25,7 @@ bazel_dep(
 git_override(
     module_name = "intellij-bsp",
     remote = "https://github.com/JetBrains/intellij-bsp.git",
-    commit = "41edb916b79a3dd7edd96771a98e5d4c4332d22e",
+    commit = "a784005d3aa27cf4e8be74fb78e66c6d250dd079",
 )
 
 #local_path_override(
@@ -77,6 +77,9 @@ maven.install(
         "https://cache-redirector.jetbrains.com/intellij-dependencies",
         "https://www.jetbrains.com/intellij-repository/releases",
         "https://www.jetbrains.com/intellij-repository/snapshots",
+    ],
+    excluded_artifacts = [
+            "org.jetbrains.kotlinx:kotlinx-coroutines-core",
     ],
     generate_compat_repositories = True,
     fail_if_repin_required = True,
