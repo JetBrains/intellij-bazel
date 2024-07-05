@@ -25,7 +25,7 @@ bazel_dep(
 git_override(
     module_name = "intellij-bsp",
     remote = "https://github.com/JetBrains/intellij-bsp.git",
-    commit = "a784005d3aa27cf4e8be74fb78e66c6d250dd079",
+    commit = "05e4515758201729f8e8d2bdcfb95da4eec4c40c",
 )
 
 #local_path_override(

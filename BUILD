@@ -28,7 +28,7 @@ define_kt_toolchain(
 intellij_plugin_library(
     name = "plugin_library",
     optional_plugin_deps = [],
-#    plugin_deps = ["com.intellij.modules.platform"],
+    plugin_deps = ["com.intellij.modules.platform"],
     plugin_xmls = [
         "//src:main/resources/META-INF/base.xml"
         ],
