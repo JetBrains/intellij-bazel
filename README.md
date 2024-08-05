@@ -1,21 +1,23 @@
-[![JetBrains team project](http://jb.gg/badges/team.svg)](https://confluence.jetbrains.com/display/ALL/JetBrains+on+GitHub)
-# Bazel by JetBrains (experimental) for IntelliJ IDEA
+# [ARCHIVED] Bazel by JetBrains for IntelliJ IDEA
 
-<!-- Plugin description -->
-Bazel by JetBrains (experimental) for IntelliJ IDEA in early development.
+⚠️ **This repository has been archived and is no longer maintained.**
 
-It uses [Build Server Protocol for IntelliJ IDEA](https://plugins.jetbrains.com/plugin/20329-build-server-protocol) 
-together with [Bazel-BSP](https://github.com/JetBrains/bazel-bsp) to import bazel projects. 
+The code from this project has been moved to our new monorepo:
 
-You can read more about the plugin [here](https://lp.jetbrains.com/new-bazel-plugin/).
-To learn more about available features please check [feature overview](https://docs.google.com/document/d/1035jfgffqD-A-LHoIE-YPFqrkKaWiRyJtuI0KRsQ-XA/edit#heading=h.ipyhfonwir0z).
+**[Project Hirschgarten](https://github.com/JetBrains/hirschgarten)**
 
-### Installation
+Please refer to the new repository for the latest updates, issues, and pull requests.
 
-In order to install the plugin please follow steps from the [landing page](https://lp.jetbrains.com/new-bazel-plugin/).
+## Why was this repository archived?
 
+We've consolidated our projects into a monorepo structure to follow The Bazel Way.
 
-### Building and Running
+## What should I do if I was using this repository?
 
-To build and run the plugin please follow steps from [intellij-platform-plugin-template](https://github.com/JetBrains/intellij-platform-plugin-template#predefined-rundebug-configurations).
-<!-- Plugin description end -->
+If you were using or referencing this repository:
+
+1. Update your references to point to [Project Hirschgarten](https://github.com/JetBrains/hirschgarten).
+2. Check the [migration guide](https://github.com/JetBrains/hirschgarten/blob/main/docs/guides/MONOREPO_MIGRATION_GUIDE.md).
+3. If you have any open issues or pull requests, please recreate them in the new repository.
+
+Thank you for your understanding and continued support!
